@@ -11,15 +11,17 @@ pipeline {
 				}
 			}
 		stage("testing"){
-			parallel testsA: {
-				sh "echo test A"
-				sleep 3
-				sleep 2
-			},
-			testsB:{
-				sh "echo test B"
-				sleep 4
-			}, failFast: true
+			steps{
+				parallel testsA: {
+					sh "echo test A"
+					sleep 3
+					sleep 2
+				},
+				testsB:{
+					sh "echo test B"
+					sleep 4
+				}, failFast: true
+			}
 		}
 		stage("Archive"){
 			steps{

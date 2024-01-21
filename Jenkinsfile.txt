@@ -1,0 +1,35 @@
+echo "Hello-pipelines"
+node {
+    stage("checkout"){
+        sh "ls"
+        git branch:"main", url:"https://github.com/mkaram007/course3-jenkins-gs-spring-petclinic"
+        sh "ls"
+    }
+    stage("build"){
+        sh "./mvnw package"
+    }
+    parallel testsA: {
+        sh "echo test A"
+        sleep 3
+        sleep 2
+    },
+    testsB:{
+        sh "echo test B"
+        sleep 4
+    }, failFast: true
+    stage("Archive"){
+        archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false
+    }
+    stage("JUnit"){
+        junit '**/target/surefire-reports/TEST*.xml'
+    }
+    stage("JaCoCo"){
+        jacoco()
+    }
+    stage("Emailing"){
+        emailext body: "${env.BUILD_URL}\n${currentBuild.absoluteUrl}", 
+        recipientProviders: [developers()], 
+        subject: 'TEstingMailConfig', 
+        to: 'mkaram@kn-it.com'
+    }
+}

@@ -1,10 +1,5 @@
 echo "Hello-pipelines"
 node {
-    stage("checkout"){
-        sh "ls"
-        git branch:"main", url:"https://github.com/mkaram007/course3-jenkins-gs-spring-petclinic"
-        sh "ls"
-    }
     stage("build"){
         sh "./mvnw package"
     }

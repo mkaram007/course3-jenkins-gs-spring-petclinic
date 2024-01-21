@@ -1,5 +1,5 @@
 echo "Hello-pipelines"
-node {
+pipeline {
 	agent any
     stage("build"){
 	sh "ls"

@@ -3,28 +3,37 @@ pipeline {
 	agent any
 	stages {
 		stage("build"){
-		sh "ls"
-		sh "chmod u+x ./mvnw"
-			sh "./mvnw package"
-		sh "ls"
+			steps{
+				sh "ls"
+				sh "chmod u+x ./mvnw"
+					sh "./mvnw package"
+				sh "ls"
+				}
+		stage("testing"){
+			parallel testsA: {
+				sh "echo test A"
+				sleep 3
+				sleep 2
+			},
+			testsB:{
+				sh "echo test B"
+				sleep 4
+			}, failFast: true
 		}
-		parallel testsA: {
-			sh "echo test A"
-			sleep 3
-			sleep 2
-		},
-		testsB:{
-			sh "echo test B"
-			sleep 4
-		}, failFast: true
 		stage("Archive"){
-			archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false
+			steps{
+				archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false
+			}
 		}
 		stage("JUnit"){
-			junit '**/target/surefire-reports/TEST*.xml'
+			steps{
+				junit '**/target/surefire-reports/TEST*.xml'
+			}
 		}
 		stage("JaCoCo"){
-			jacoco()
+			steps{
+				jacoco()
+			}
 		}
 	}
 	post{

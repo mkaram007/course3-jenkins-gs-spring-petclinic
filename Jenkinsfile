@@ -1,5 +1,6 @@
 echo "Hello-pipelines"
 node {
+	agent any
     stage("build"){
 	sh "ls"
 	sh "chmod u+x ./mvnw"

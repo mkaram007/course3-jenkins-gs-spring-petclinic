@@ -1,7 +1,9 @@
 echo "Hello-pipelines"
 node {
     stage("build"){
+	sh "ls"
         sh "./mvnw package"
+	sh "ls"
     }
     parallel testsA: {
         sh "echo test A"

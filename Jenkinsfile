@@ -42,6 +42,7 @@ pipeline {
 			recipientProviders: [developers()], 
 			subject: 'TEstingMailConfig', 
 			to: 'mkaram@kn-it.com'
+			}
 		}
 	}
 }

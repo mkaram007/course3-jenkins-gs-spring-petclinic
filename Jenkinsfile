@@ -2,6 +2,7 @@ echo "Hello-pipelines"
 node {
     stage("build"){
 	sh "ls"
+	sh "chmod u+x ./mvnw"
         sh "./mvnw package"
 	sh "ls"
     }

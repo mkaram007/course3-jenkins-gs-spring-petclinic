@@ -9,6 +9,7 @@ pipeline {
 					sh "./mvnw package"
 				sh "ls"
 				}
+			}
 		stage("testing"){
 			parallel testsA: {
 				sh "echo test A"
